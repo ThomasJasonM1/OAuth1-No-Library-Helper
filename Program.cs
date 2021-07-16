@@ -9,6 +9,8 @@ namespace OAuth1_No_Library_Helper
     class Program
     {
         // Fill in these 4 variables
+        // The consumerKey, consumerSecret and tokenValue can be found in the welcome email your received when you gained access to use our API
+        // The conversationId can come from the excel file you received earlier today
         private static string conversationId = "";
         private static string consumerKey = "";
         private static string consumerSecret = "";
@@ -16,10 +18,11 @@ namespace OAuth1_No_Library_Helper
         // You don't need to modify anything below this line
 
         private static string tokenSecret = ""; // Leave this an empty string
+        // This URL can be modified based on the endpoint you want to call
         private static string url = "https://staging-rest.call-em-all.com/v1/conversations/" + conversationId + "/textmessages";
 
+        // These are used to satisfy section 5 and 5.1 found here: https://oauth.net/core/1.0/#encoding_parameters
         private static readonly string[] UriRfc3986CharsToEscape = new[] { "!", "*", "'", "(", ")" };
-
         private static string EscapeUriDataStringRfc3986(string value)
         {
 
@@ -34,6 +37,7 @@ namespace OAuth1_No_Library_Helper
         {
             try
             {
+                // This is also used to satisfy section 5 and 5.1 found here: https://oauth.net/core/1.0/#encoding_parameters
                 string Escape(string s)
                 {
                     var charsToEscape = new[] { "!", "*", "'", "(", ")" };
@@ -45,14 +49,17 @@ namespace OAuth1_No_Library_Helper
                     return escaped.ToString();
                 }
 
-
-
+                // We are going to set up a new web request. We will add our auth to this request after we build it
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                // This is the request type of your choosing
                 httpWebRequest.Method = "GET";
 
+                // The timestamp and nonce requirements are found here: https://oauth.net/core/1.0/#nonce
                 var timeStamp = ((int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds).ToString();
                 var nonce = Convert.ToBase64String(Encoding.UTF8.GetBytes(timeStamp));
 
+                // Here we are building the Authorization Header and cleaning the variables per the encoding param standards above
+                // More info can be found here: https://oauth.net/core/1.0/#anchor14 and here: https://oauth.net/core/1.0/#auth_header_authorization
                 var signatureBaseString = Escape(httpWebRequest.Method.ToUpper()) + "&";
                 signatureBaseString += EscapeUriDataStringRfc3986(url.ToLower()) + "&";
                 signatureBaseString += EscapeUriDataStringRfc3986(
@@ -72,6 +79,7 @@ namespace OAuth1_No_Library_Helper
                 var keyBytes = signatureEncoding.GetBytes(key);
                 var signatureBaseBytes = signatureEncoding.GetBytes(signatureBaseString);
                 string signatureString;
+                // hmacsha1 requirement: https://oauth.net/core/1.0/#anchor16, https://oauth.net/core/1.0/#anchor19
                 using (var hmacsha1 = new HMACSHA1(keyBytes))
                 {
                     var hashBytes = hmacsha1.ComputeHash(signatureBaseBytes);
