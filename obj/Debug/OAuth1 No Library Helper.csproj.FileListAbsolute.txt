@@ -1,0 +1,7 @@
+C:\Call-Em-All\Rest Test\OAuth1 No Library Helper\bin\Debug\OAuth1 No Library Helper.exe.config
+C:\Call-Em-All\Rest Test\OAuth1 No Library Helper\bin\Debug\OAuth1 No Library Helper.exe
+C:\Call-Em-All\Rest Test\OAuth1 No Library Helper\bin\Debug\OAuth1 No Library Helper.pdb
+C:\Call-Em-All\Rest Test\OAuth1 No Library Helper\obj\Debug\OAuth1 No Library Helper.csprojAssemblyReference.cache
+C:\Call-Em-All\Rest Test\OAuth1 No Library Helper\obj\Debug\OAuth1 No Library Helper.csproj.CoreCompileInputs.cache
+C:\Call-Em-All\Rest Test\OAuth1 No Library Helper\obj\Debug\OAuth1 No Library Helper.exe
+C:\Call-Em-All\Rest Test\OAuth1 No Library Helper\obj\Debug\OAuth1 No Library Helper.pdb
